@@ -25,11 +25,12 @@ ____ _  _ ____ ____ _  _ ____ ____ _  _ ____ ____ _  _ ____
 Supported build targets: Teensy3 and Raspi.
 */
 
-#include <DataStructures/StringBuilder.h>
 #include <Platform/Platform.h>
 
 #include <Transports/ManuvrSerial/ManuvrSerial.h>
 #include <XenoSession/Console/ManuvrConsole.h>
+
+#include "ChronoChroma/ChronoChroma.h"
 
 #define HOST_BAUD_RATE  115200
 
@@ -40,8 +41,6 @@ const MessageTypeDef message_defs_cc[] = {
   {  MANUVR_MSG_DIRTY_FRAME_BUF      , 0x0000,  "DIRTY_FRAME_BUF",   ManuvrMsg::MSG_ARGS_NONE }, // Something changed the framebuffer and we need to redraw.
 };
 
-
-StringBuilder local_log;
 
 Kernel*             kernel        = NULL;
 
@@ -78,8 +77,6 @@ void setup() {
   platform.platformPreInit();
   kernel = platform.kernel();
 
-  //analogReadRes(BEST_ADC_PRECISION);  // All ADC channels shall be 10-bit.
-  analogReadAveraging(32);            // And maximally-smoothed by the hardware (32).
   analogWriteResolution(12);   // Setup the DAC.
 
   gpioDefine(13, OUTPUT);
@@ -88,19 +85,17 @@ void setup() {
   gpioDefine(2,  INPUT_PULLUP);
   gpioDefine(3,  INPUT_PULLUP);
   gpioDefine(14, INPUT);
+
+  kernel->subscribe((EventReceiver*) new ChronoChroma());
+
+  platform.bootstrap();
+
+  ManuvrMsg* fade_sched = kernel->createSchedule(40, -1, false, logo_fade);
+  fade_sched->enableSchedule(true);
 }
 
 
 void loop() {
-  // Setup the first i2c adapter and Subscribe it to Kernel.
-  I2CAdapter i2c(1);
-
-  kernel->subscribe((EventReceiver*) &i2c);
-
-  kernel->createSchedule(40, -1, false, logo_fade);
-
-  platform.bootstrap();
-
   ManuvrSerial  _console_xport("U", HOST_BAUD_RATE);  // Indicate USB.
   kernel->subscribe((EventReceiver*) &_console_xport);
   ManuvrConsole _console((BufferPipe*) &_console_xport);

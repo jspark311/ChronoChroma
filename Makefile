@@ -25,7 +25,7 @@ export BUILD_ROOT   = $(shell pwd)
 export OUTPUT_PATH  = $(BUILD_ROOT)/build
 
 TOOLCHAIN          = $(ARDUINO_PATH)/hardware/tools/arm
-TEENSY_LOADER_PATH = $(ARDUINO_PATH)/hardware/tools/teensy_loader_cli
+TEENSY_LOADER_PATH = $(BUILD_ROOT)/tools/teensy_loader_cli/teensy_loader_cli
 FORMAT             = ihex
 
 export CC      = $(TOOLCHAIN)/bin/arm-none-eabi-gcc
@@ -111,6 +111,7 @@ endif
 # Source file definitions...
 ###########################################################################
 SOURCES_CPP  = src/main.cpp src/ChronoChroma/ChronoChroma.cpp
+SOURCES_CPP += src/RGBClock/RGBClock.cpp
 
 
 ###########################################################################

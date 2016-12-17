@@ -27,30 +27,30 @@ Each segment has three PWM channels of 12-bits each. This is a bit
 */
 
 enum class CharacterDefs {
-  DIGIT_0  = 0b01110111;
-  DIGIT_1  = 0b00000110;
-  DIGIT_2  = 0b10110011;
-  DIGIT_3  = 0b10010111;
-  DIGIT_4  = 0b11000110;
-  DIGIT_5  = 0b11010101;
-  DIGIT_6  = 0b11110101;
-  DIGIT_7  = 0b00000111;
-  DIGIT_8  = 0b11110111;
-  DIGIT_9  = 0b11010111;
-  DIGIT_A  = 0b11100111;
-  DIGIT_B  = 0b11110100;
-  DIGIT_C  = 0b01110001;
-  DIGIT_D  = 0b11110100;
-  DIGIT_E  = 0b11110001;
-  DIGIT_F  = 0b11100001;
-  POINT    = 0b00001000;
+  DIGIT_0  = 0b01110111,
+  DIGIT_1  = 0b00000110,
+  DIGIT_2  = 0b10110011,
+  DIGIT_3  = 0b10010111,
+  DIGIT_4  = 0b11000110,
+  DIGIT_5  = 0b11010101,
+  DIGIT_6  = 0b11110101,
+  DIGIT_7  = 0b00000111,
+  DIGIT_8  = 0b11110111,
+  DIGIT_9  = 0b11010111,
+  DIGIT_A  = 0b11100111,
+  DIGIT_B  = 0b11110100,
+  DIGIT_C  = 0b01110001,
+  DIGIT_D  = 0b11110100,
+  DIGIT_E  = 0b11110001,
+  DIGIT_F  = 0b11100001,
+  POINT    = 0b00001000
 };
 
 
-class RGB7Seg : public TLC5947 {
+class RGBClock : public TLC5947 {
   public:
-    RGB7Seg(BusAdapter<SPIBusOp>*, uint8_t cs, uint8_t oe);
-    ~RGB7Seg();
+    RGBClock(BusAdapter<SPIBusOp>*, uint8_t cs, uint8_t oe);
+    ~RGBClock();
 
     void     addSegment(uint8_t);
     void     remSegment(uint8_t);
@@ -65,7 +65,7 @@ class RGB7Seg : public TLC5947 {
 
 
   private:
-    uint8_t _seg_mask[4] = 0xFF;  // All segs of all digits off by default.
+    uint8_t _seg_mask[4] = {0xFF, 0xFF, 0xFF, 0xFF};  // All segs of all digits off by default.
 
     void    _write_digit(uint8_t idx, uint8_t val, bool punctuation);
 

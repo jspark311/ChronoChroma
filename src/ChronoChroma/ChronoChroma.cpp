@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "ChronoChroma.h"
 #include <Platform/Platform.h>
-#include <Drivers/ADCScanner/ADCScanner.h>
+#include "../RGBClock/RGBClock.h"
 
 /*******************************************************************************
 *      _______.___________.    ___   .___________. __    ______     _______.
@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 * Static members and initializers should be located here.
 *******************************************************************************/
 
+RGBClock* rgb_clock = nullptr;
 
 /*******************************************************************************
 *   ___ _              ___      _ _              _      _
@@ -49,6 +50,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 ChronoChroma::ChronoChroma() : EventReceiver() {
   setReceiverName("ChronoChroma");
+  rgb_clock = new RGBClock(nullptr, 10, 9);
 }
 
 
