@@ -1,28 +1,28 @@
 /*
 File:   main.cpp
 Author: J. Ian Lindsay
-Date:   2014.05.19
+Date:   2016.12.10
 
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
+Copyright 2016 Manuvr, Inc
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 ____ _  _ ____ ____ _  _ ____ ____ _  _ ____ ____ _  _ ____
 |    |__| |__/ |  | |\ | |  | |    |__| |__/ |  | |\/| |__|
 |___ |  | |  \ |__| | \| |__| |___ |  | |  \ |__| |  | |  |
 
 
-Supported build targets: Teensy3 and Raspi.
+Supported build targets: Teensy3 and (TODO) Raspi.
 */
 
 #include <Platform/Platform.h>
@@ -35,14 +35,12 @@ Supported build targets: Teensy3 and Raspi.
 #define HOST_BAUD_RATE  115200
 
 
+Kernel* kernel = nullptr;
 
 // These are only here until they are migrated to each receiver that deals with them.
 const MessageTypeDef message_defs_cc[] = {
   {  MANUVR_MSG_DIRTY_FRAME_BUF      , 0x0000,  "DIRTY_FRAME_BUF",   ManuvrMsg::MSG_ARGS_NONE }, // Something changed the framebuffer and we need to redraw.
 };
-
-
-Kernel*             kernel        = NULL;
 
 
 /****************************************************************************************************

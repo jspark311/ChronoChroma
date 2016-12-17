@@ -3,19 +3,20 @@ File:   ChronoChroma.h
 Author: J. Ian Lindsay
 Date:   2016.12.10
 
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
+Copyright 2016 Manuvr, Inc
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 */
 
 
@@ -28,14 +29,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 * These state flags are hosted by the EventReceiver. This may change in the future.
 * Might be too much convention surrounding their assignment across inherritence.
 */
-#define VIAMSONUS_FLAG_RESERVED_7       0x01    //
-#define VIAMSONUS_FLAG_RESERVED_6       0x02    //
-#define VIAMSONUS_FLAG_RESERVED_5       0x04    //
-#define VIAMSONUS_FLAG_RESERVED_4       0x08    //
-#define VIAMSONUS_FLAG_RESERVED_3       0x10    //
-#define VIAMSONUS_FLAG_RESERVED_2       0x20    //
-#define VIAMSONUS_FLAG_RESERVED_1       0x40    //
-#define VIAMSONUS_FLAG_RESERVED_0       0x80    //
+#define CHRONOCHRMOA_FLAG_SHOWING_TIME 0x01  //
+#define CHRONOCHRMOA_FLAG_RESERVED_6   0x02  //
+#define CHRONOCHRMOA_FLAG_RESERVED_5   0x04  //
+#define CHRONOCHRMOA_FLAG_RESERVED_4   0x08  //
+#define CHRONOCHRMOA_FLAG_RESERVED_3   0x10  //
+#define CHRONOCHRMOA_FLAG_RESERVED_2   0x20  //
+#define CHRONOCHRMOA_FLAG_RESERVED_1   0x40  //
+#define CHRONOCHRMOA_FLAG_RESERVED_0   0x80  //
 
 
 class ChronoChroma : public EventReceiver {
