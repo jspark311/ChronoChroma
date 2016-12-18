@@ -72,6 +72,8 @@ ChronoChroma::ChronoChroma(Argument* root_config) : ChronoChroma() {
 * Unlike many of the other EventReceivers, THIS one needs to be able to be torn down.
 */
 ChronoChroma::~ChronoChroma() {
+  platform.kernel()->removeSchedule(&event_color_shift);
+  platform.kernel()->removeSchedule(&event_display_refresh);
 }
 
 
@@ -97,6 +99,21 @@ ChronoChroma::~ChronoChroma() {
 */
 int8_t ChronoChroma::attached() {
   if (EventReceiver::attached()) {
+    event_color_shift.repurpose(CHRONOCHROMA_MSG_COLOR_SHF, (EventReceiver*) this);
+    event_color_shift.incRefs();
+    event_color_shift.specific_target = (EventReceiver*) this;
+    event_color_shift.alterSchedulePeriod(30);
+    event_color_shift.autoClear(false);
+    event_color_shift.alterScheduleRecurrence(-1);
+    platform.kernel()->addSchedule(&event_color_shift);
+
+    event_display_refresh.repurpose(CHRONOCHROMA_MSG_DISP_UPDATE, (EventReceiver*) this);
+    event_display_refresh.incRefs();
+    event_display_refresh.specific_target = (EventReceiver*) this;
+    event_display_refresh.alterSchedulePeriod(1000);
+    event_display_refresh.autoClear(false);
+    event_display_refresh.alterScheduleRecurrence(-1);
+    platform.kernel()->addSchedule(&event_display_refresh);
     return 1;
   }
   return 0;
@@ -149,6 +166,30 @@ int8_t ChronoChroma::notify(ManuvrMsg* active_event) {
   int8_t return_value = 0;
 
   switch (active_event->eventCode()) {
+    case CHRONOCHROMA_MSG_COLOR_SHF:
+      {
+        uint32_t permute = randomInt();
+        switch (permute % 3) {
+          case 0:
+            if (0x04 & permute) rgb_clock->incRed();
+            else rgb_clock->decRed();
+            break;
+          case 1:
+            if (0x04 & permute) rgb_clock->incGreen();
+            else rgb_clock->decGreen();
+            break;
+          case 2:
+            if (0x04 & permute) rgb_clock->incBlue();
+            else rgb_clock->decBlue();
+            break;
+        }
+      }
+      rgb_clock->refresh();
+      return_value++;
+      break;
+    case CHRONOCHROMA_MSG_DISP_UPDATE:
+      return_value++;
+      break;
     default:
       return_value += EventReceiver::notify(active_event);
       break;
@@ -176,18 +217,53 @@ void ChronoChroma::procDirectDebugInstruction(StringBuilder *input) {
   char c    = *(str);
 
   switch (c) {
-    case 'c':   // Bind or unbind to the current time.
-    case 'C':
+    case 'r':   // Display red.
+      rgb_clock->setGlobalColor(0x0FFF, 0, 0);
       break;
-    case 'B':   // Blank or unblank the display.
+    case 'g':   // Display green.
+      rgb_clock->setGlobalColor(0, 0x0FFF, 0);
+      break;
+    case 'h':   // Display blue.
+      rgb_clock->setGlobalColor(0, 0, 0x0FFF);
+      break;
+    case 'O':   // Blank or unblank the display.
+    case 'o':
+      rgb_clock->blank('o' == c);
+      break;
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case 'a':
     case 'b':
-      rgb_clock->blank('B' == c);
+    case 'c':
+    case 'd':
+    case 'e':
+    case 'f':
+    case '.':
+    case '-':
+    case '_':
+      rgb_clock->showString(str+1);
       break;
-    case 'r':
+    case 'u':
       rgb_clock->refresh();
       break;
-    case 's':
-      rgb_clock->showDigit(0);
+    case 'K':
+    case 'k':
+      event_color_shift.enableSchedule('K' == c);
+      break;
+    case 'T':
+    case 't':
+      event_display_refresh.enableSchedule('T' == c);
+      break;
+    case 'z':
+      rgb_clock->clearDisplay();
       break;
     default:
       EventReceiver::procDirectDebugInstruction(input);

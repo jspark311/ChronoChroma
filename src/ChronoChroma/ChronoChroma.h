@@ -25,6 +25,9 @@ limitations under the License.
 
 #include <Platform/Platform.h>
 
+#define CHRONOCHROMA_MSG_COLOR_SHF    0x7f21
+#define CHRONOCHROMA_MSG_DISP_UPDATE  0x7f22
+
 /*
 * These state flags are hosted by the EventReceiver. This may change in the future.
 * Might be too much convention surrounding their assignment across inherritence.
@@ -58,6 +61,8 @@ class ChronoChroma : public EventReceiver {
 
 
   private:
+    ManuvrMsg event_color_shift;
+    ManuvrMsg event_display_refresh;
 };
 
 #endif   // __CHRONO_CHROMA_MODULE_H__

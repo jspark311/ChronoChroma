@@ -39,6 +39,8 @@ Kernel* kernel = nullptr;
 
 // These are only here until they are migrated to each receiver that deals with them.
 const MessageTypeDef message_defs_cc[] = {
+  {  CHRONOCHROMA_MSG_COLOR_SHF      , 0x0000,  "COLOR_SHIFT",       ManuvrMsg::MSG_ARGS_NONE }, //
+  {  CHRONOCHROMA_MSG_DISP_UPDATE    , 0x0000,  "DISP_POLL",         ManuvrMsg::MSG_ARGS_NONE }, //
   {  MANUVR_MSG_DIRTY_FRAME_BUF      , 0x0000,  "DIRTY_FRAME_BUF",   ManuvrMsg::MSG_ARGS_NONE }, // Something changed the framebuffer and we need to redraw.
 };
 
