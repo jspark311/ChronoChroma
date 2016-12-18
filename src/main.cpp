@@ -77,12 +77,7 @@ void setup() {
 
   analogWriteResolution(12);   // Setup the DAC.
 
-  gpioDefine(13, OUTPUT);
-  gpioDefine(11, OUTPUT);
   gpioDefine(4,  OUTPUT);
-  gpioDefine(2,  INPUT_PULLUP);
-  gpioDefine(3,  INPUT_PULLUP);
-  gpioDefine(14, INPUT);
 
   kernel->subscribe((EventReceiver*) new ChronoChroma());
 

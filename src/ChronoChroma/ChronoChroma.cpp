@@ -166,6 +166,7 @@ int8_t ChronoChroma::notify(ManuvrMsg* active_event) {
 */
 void ChronoChroma::printDebug(StringBuilder *output) {
   EventReceiver::printDebug(output);
+  rgb_clock->printDebug(output);
 }
 
 
@@ -177,6 +178,16 @@ void ChronoChroma::procDirectDebugInstruction(StringBuilder *input) {
   switch (c) {
     case 'c':   // Bind or unbind to the current time.
     case 'C':
+      break;
+    case 'B':   // Blank or unblank the display.
+    case 'b':
+      rgb_clock->blank('B' == c);
+      break;
+    case 'r':
+      rgb_clock->refresh();
+      break;
+    case 's':
+      rgb_clock->showDigit(0);
       break;
     default:
       EventReceiver::procDirectDebugInstruction(input);

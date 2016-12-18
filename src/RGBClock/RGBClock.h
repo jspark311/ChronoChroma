@@ -77,8 +77,9 @@ class RGBClock : public TLC5947 {
     uint64_t getSegColor(uint8_t seg);
     void     setSegColor(uint8_t seg, char channel, uint16_t nu);
     void     clearDisplay(void);
-    void     refresh(void);
     bool     segOn(uint8_t seg);
+
+    void printDebug(StringBuilder*);
 
 
   private:

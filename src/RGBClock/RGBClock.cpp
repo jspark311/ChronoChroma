@@ -31,3 +31,18 @@ RGBClock::~RGBClock() {
 void RGBClock::clearDisplay() {
 	zeroAll();
 }
+
+
+void RGBClock::showDigit(int dig) {
+	uint8_t* buf = buffer();
+	size_t len = bufLen();
+	random_fill(buf, len);
+}
+
+
+void RGBClock::printDebug(StringBuilder* output) {
+	output->concat("---< RGBClock >------------------------------------- \n");
+	output->concatf("--\t %d digits chained for a total of %u bytes of buffer\n.", _chain_len, bufLen());
+	output->concatf("--\t Using CS pin %u, OE pin %u\n", _cs_pin, _oe_pin);
+	output->concatf("--\t Buffer is %s dirty.\n--\n", (_buf_dirty) ? "":"not");
+}
