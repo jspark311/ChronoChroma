@@ -68,7 +68,7 @@ enum class CharacterDefs {
 
 class RGBClock : public TLC5947 {
   public:
-    RGBClock(BusAdapter<SPIBusOp>*, uint8_t cs, uint8_t oe);
+    RGBClock(SPIAdapter*, uint8_t cs, uint8_t oe);
     ~RGBClock();
 
     void     showDigit(int);
