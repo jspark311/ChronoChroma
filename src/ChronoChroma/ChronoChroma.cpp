@@ -217,6 +217,13 @@ void ChronoChroma::procDirectDebugInstruction(StringBuilder *input) {
   char c    = *(str);
 
   switch (c) {
+    case 'p':
+      random_fill(rgb_clock->buffer(), rgb_clock->bufLen());
+      rgb_clock->refresh();
+      break;
+    case 'w':
+      rgb_clock->setGlobalColor(0x0FFF, 0x0FFF, 0x0FFF);
+      break;
     case 'r':   // Display red.
       rgb_clock->setGlobalColor(0x0FFF, 0, 0);
       break;
@@ -249,7 +256,7 @@ void ChronoChroma::procDirectDebugInstruction(StringBuilder *input) {
     case '.':
     case '-':
     case '_':
-      rgb_clock->showString(str+1);
+      rgb_clock->showString(str);
       break;
     case 'u':
       rgb_clock->refresh();

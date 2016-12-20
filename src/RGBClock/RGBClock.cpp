@@ -118,6 +118,7 @@ uint8_t RGBClock::_char_to_glyph(char c) {
 		case '2':  return (uint8_t) GlyphMap8::DIGIT_2;
 		case '3':  return (uint8_t) GlyphMap8::DIGIT_3;
 		case '4':  return (uint8_t) GlyphMap8::DIGIT_4;
+		case 'S':
 		case '5':  return (uint8_t) GlyphMap8::DIGIT_5;
 		case '6':  return (uint8_t) GlyphMap8::DIGIT_6;
 		case '7':  return (uint8_t) GlyphMap8::DIGIT_7;
@@ -129,6 +130,10 @@ uint8_t RGBClock::_char_to_glyph(char c) {
 		case 'D':  return (uint8_t) GlyphMap8::DIGIT_D;
 		case 'E':  return (uint8_t) GlyphMap8::DIGIT_E;
 		case 'F':  return (uint8_t) GlyphMap8::DIGIT_F;
+		case 'O':  return (uint8_t) GlyphMap8::ALPHA_O;
+		case 'H':  return (uint8_t) GlyphMap8::ALPHA_H;
+		case 'L':  return (uint8_t) GlyphMap8::ALPHA_L;
+		case 'T':  return (uint8_t) GlyphMap8::ALPHA_T;
 		case '-':  return (uint8_t) GlyphMap8::DASH;
 		case '_':  return (uint8_t) GlyphMap8::USCORE;
 		case '.':  return (uint8_t) GlyphMap8::POINT;
