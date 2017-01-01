@@ -50,8 +50,7 @@ RGBClock* rgb_clock = nullptr;
 /**
 * Vanilla constructor.
 */
-ChronoChroma::ChronoChroma() : EventReceiver() {
-  setReceiverName("ChronoChroma");
+ChronoChroma::ChronoChroma() : EventReceiver("ChronoChroma") {
   SPIAdapter* _spi = new SPIAdapter(0, 12, 11, 13);
   platform.kernel()->subscribe((EventReceiver*) _spi);
   rgb_clock = new RGBClock(_spi, 10, 9);
