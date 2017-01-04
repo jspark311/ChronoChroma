@@ -29,6 +29,11 @@ Supported build targets: Teensy3 and (TODO) Raspi.
 
 #include <Transports/ManuvrSerial/ManuvrSerial.h>
 #include <XenoSession/Console/ManuvrConsole.h>
+#include <Drivers/Sensors/TMP006/TMP006.h>
+#include <Drivers/Sensors/INA219/INA219.h>
+#include <Drivers/Sensors/TSL2561/TSL2561.h>
+#include <Drivers/Sensors/Si7021/Si7021.h>
+#include <Drivers/Sensors/VEML6070/VEML6070.h>
 
 #include "ChronoChroma/ChronoChroma.h"
 
@@ -43,6 +48,12 @@ const MessageTypeDef message_defs_cc[] = {
   {  CHRONOCHROMA_MSG_DISP_UPDATE    , 0x0000,  "DISP_POLL",         ManuvrMsg::MSG_ARGS_NONE }, //
   {  MANUVR_MSG_DIRTY_FRAME_BUF      , 0x0000,  "DIRTY_FRAME_BUF",   ManuvrMsg::MSG_ARGS_NONE }, // Something changed the framebuffer and we need to redraw.
 };
+
+const I2CAdapterOptions i2c_opts(
+  0,    // Device number
+  18,   // sda
+  19    // scl
+);
 
 
 /****************************************************************************************************
@@ -80,6 +91,20 @@ void setup() {
   analogWriteResolution(12);   // Setup the DAC.
 
   gpioDefine(4,  OUTPUT);
+
+  I2CAdapter* i2c = new I2CAdapter(&i2c_opts);
+  kernel->subscribe(i2c);
+
+  INA219*  ina219  = new INA219(0x4A);
+  TMP006*  tmp006  = new TMP006(0x41, 7);    // DRDY is pin 7.
+  TSL2561* tsl2561 = new TSL2561(0x39, 6);   // IRQ is pin 6.
+  Si7021*  si7021  = new Si7021();
+  VEML6070* veml6070 = new VEML6070(5);      // ACK in on pin 5.
+  i2c->addSlaveDevice(ina219);
+  i2c->addSlaveDevice(tmp006);
+  i2c->addSlaveDevice(tsl2561);
+  i2c->addSlaveDevice(si7021);
+  i2c->addSlaveDevice(veml6070);
 
   kernel->subscribe((EventReceiver*) new ChronoChroma());
 
